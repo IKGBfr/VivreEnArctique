@@ -55,26 +55,62 @@ const ContentSection = styled.section`
 const FilterContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: ${theme.spacing.md};
-  margin-bottom: ${theme.spacing.xxl};
+  gap: 0.5rem;
+  margin-bottom: ${theme.spacing.xl};
   flex-wrap: wrap;
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding: 0 ${theme.spacing.md};
+    gap: 0.375rem;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `
 
 const FilterButton = styled.button<{ active: boolean }>`
-  padding: ${theme.spacing.sm} ${theme.spacing.lg};
-  background-color: ${props => props.active ? theme.colors.primary : theme.colors.white};
-  color: ${props => props.active ? theme.colors.white : theme.colors.gray};
-  border: 2px solid ${props => props.active ? theme.colors.primary : theme.colors.border};
-  border-radius: ${theme.radii.full};
-  font-size: ${theme.fontSizes.base};
-  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  background: ${props => props.active 
+    ? 'rgba(102, 126, 234, 0.15)' 
+    : 'rgba(255, 255, 255, 0.5)'};
+  color: ${props => props.active ? theme.colors.primary : theme.colors.gray};
+  border: 1px solid ${props => props.active 
+    ? 'rgba(102, 126, 234, 0.3)' 
+    : 'rgba(0, 0, 0, 0.1)'};
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all ${theme.transitions.fast};
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.025em;
 
   &:hover {
-    background-color: ${props => props.active ? theme.colors.dark : theme.colors.secondary};
-    border-color: ${props => props.active ? theme.colors.dark : theme.colors.primary};
-    color: ${props => props.active ? theme.colors.white : theme.colors.primary};
+    background: ${props => props.active 
+      ? 'rgba(102, 126, 234, 0.25)' 
+      : 'rgba(255, 255, 255, 0.8)'};
+    border-color: ${props => props.active 
+      ? 'rgba(102, 126, 234, 0.5)' 
+      : 'rgba(102, 126, 234, 0.2)'};
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.7rem;
+    height: 26px;
+    min-width: fit-content;
   }
 `
 
