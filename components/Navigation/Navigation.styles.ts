@@ -30,10 +30,11 @@ export const Logo = styled.a<{ scrolled: boolean }>`
   font-family: ${theme.fonts.heading};
   font-size: ${theme.fontSizes['2xl']};
   font-weight: 700;
-  color: ${props => props.scrolled ? theme.colors.dark : theme.colors.white};
+  color: ${props => props.scrolled ? '#0F172A' : theme.colors.white};
   text-decoration: none;
   transition: color ${theme.transitions.fast};
   letter-spacing: -0.5px;
+  text-shadow: ${props => props.scrolled ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.5)'};
 
   &:hover {
     color: ${theme.colors.primary};
@@ -67,11 +68,12 @@ export const NavLinks = styled.div<{ isOpen: boolean }>`
 
 export const NavLink = styled.a<{ scrolled: boolean }>`
   font-size: ${theme.fontSizes.base};
-  color: ${props => props.scrolled ? theme.colors.gray : theme.colors.white};
+  color: ${props => props.scrolled ? '#0F172A' : theme.colors.white};
   text-decoration: none;
   transition: color ${theme.transitions.fast};
   font-weight: 500;
   position: relative;
+  text-shadow: ${props => props.scrolled ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.5)'};
 
   &::after {
     content: '';
@@ -93,7 +95,7 @@ export const NavLink = styled.a<{ scrolled: boolean }>`
   }
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    color: ${theme.colors.dark};
+    color: '#0F172A';
     font-size: ${theme.fontSizes.lg};
   }
 `
@@ -114,15 +116,17 @@ export const MenuButton = styled.button<{ scrolled: boolean }>`
     display: block;
     width: 25px;
     height: 2px;
-    background-color: ${props => props.scrolled ? theme.colors.dark : theme.colors.white};
+    background-color: ${props => props.scrolled ? '#0F172A' : theme.colors.white};
     margin: 5px 0;
     transition: all ${theme.transitions.fast};
     transform-origin: center;
+    filter: ${props => props.scrolled ? 'none' : 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))'};
   }
 
   &.active {
     span:nth-of-type(1) {
       transform: rotate(45deg) translate(5px, 5px);
+      background-color: '#0F172A';
     }
     
     span:nth-of-type(2) {
@@ -131,6 +135,7 @@ export const MenuButton = styled.button<{ scrolled: boolean }>`
     
     span:nth-of-type(3) {
       transform: rotate(-45deg) translate(7px, -6px);
+      background-color: '#0F172A';
     }
   }
 `
