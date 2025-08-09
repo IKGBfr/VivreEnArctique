@@ -221,7 +221,7 @@ npm run lint
 2. **aurores-boreales.mdx** - Guide d'observation
 3. **faune-arctique.mdx** - Rencontres animales
 4. **survie-grand-froid.mdx** - Conseils pratiques
-5. **culture-inuit.mdx** - Traditions locales
+5. **culture-sami.mdx** - Traditions du peuple Sami
 6. **changement-climatique.mdx** - Impact environnemental
 
 ## ⚡ Optimisations
