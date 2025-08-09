@@ -3,9 +3,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { motion } from 'framer-motion'
-import BlogGrid from '@/components/BlogGrid/BlogGrid'
 import { theme } from '@/styles/theme'
-import { PostMeta } from '@/lib/types'
 
 const HeroSection = styled.section`
   position: relative;
@@ -27,46 +25,55 @@ const HeroBackground = styled.div`
   background-image: url('https://images.unsplash.com/photo-1483347756197-71ef80e95f73?w=1920&q=80');
   background-size: cover;
   background-position: center;
-  opacity: 0.3;
+  opacity: 0.4;
+  transform: scale(1.1);
+  transition: transform 20s ease-out;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+`
+
+const HeroOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
+  z-index: 1;
 `
 
 const HeroContent = styled(motion.div)`
   position: relative;
-  z-index: 1;
+  z-index: 2;
   text-align: center;
   padding: ${theme.spacing.lg};
-  max-width: 800px;
+  max-width: 900px;
 `
 
 const HeroTitle = styled(motion.h1)`
   font-family: ${theme.fonts.heading};
-  font-size: ${theme.fontSizes['5xl']};
+  font-size: clamp(3rem, 8vw, 6rem);
   color: ${theme.colors.white};
-  margin-bottom: ${theme.spacing.md};
+  margin-bottom: ${theme.spacing.lg};
   font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  letter-spacing: -1px;
-
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    font-size: ${theme.fontSizes['4xl']};
-  }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.fontSizes['3xl']};
-  }
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  letter-spacing: -2px;
+  line-height: 1.1;
 `
 
 const HeroSubtitle = styled(motion.p)`
-  font-size: ${theme.fontSizes.xl};
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
   color: ${theme.colors.white};
-  margin-bottom: ${theme.spacing.xl};
+  margin-bottom: ${theme.spacing.xxl};
   opacity: 0.95;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-  line-height: 1.6;
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    font-size: ${theme.fontSizes.lg};
-  }
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.7;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 300;
 `
 
 const ScrollIndicator = styled(motion.div)`
@@ -77,74 +84,102 @@ const ScrollIndicator = styled(motion.div)`
   color: ${theme.colors.white};
   font-size: ${theme.fontSizes['2xl']};
   cursor: pointer;
-  animation: bounce 2s infinite;
+  z-index: 2;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  
+  &:hover {
+    opacity: 1;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 30px;
+    background: linear-gradient(to bottom, transparent, ${theme.colors.white});
+    animation: scroll 2s infinite;
+  }
+
+  @keyframes scroll {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-10px);
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(10px);
+    }
+  }
+
+  animation: bounce 3s infinite;
 
   @keyframes bounce {
     0%, 20%, 50%, 80%, 100% {
       transform: translateX(-50%) translateY(0);
     }
     40% {
-      transform: translateX(-50%) translateY(-10px);
+      transform: translateX(-50%) translateY(-8px);
     }
     60% {
-      transform: translateX(-50%) translateY(-5px);
+      transform: translateX(-50%) translateY(-4px);
     }
   }
 `
 
-const FeaturesSection = styled.section`
-  padding: ${theme.spacing.xxl} ${theme.spacing.lg};
-  background-color: ${theme.colors.white};
+const ParallaxContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
 `
 
-const FeaturesContainer = styled.div`
-  max-width: ${theme.breakpoints.wide};
-  margin: 0 auto;
+const SnowflakeContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
 `
 
-const FeaturesGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: ${theme.spacing.xl};
-  margin-bottom: ${theme.spacing.xxl};
+const Snowflake = styled(motion.div)<{ delay: number; duration: number; size: number }>`
+  position: absolute;
+  color: rgba(255, 255, 255, 0.6);
+  user-select: none;
+  pointer-events: none;
+  font-size: ${props => props.size}px;
+  animation: fall ${props => props.duration}s linear infinite;
+  animation-delay: ${props => props.delay}s;
 
-  @media (max-width: ${theme.breakpoints.desktop}) {
-    grid-template-columns: repeat(2, 1fr);
+  @keyframes fall {
+    0% {
+      transform: translateY(-100vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
+    }
   }
-
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    grid-template-columns: 1fr;
-  }
 `
 
-const FeatureCard = styled(motion.div)`
-  text-align: center;
-  padding: ${theme.spacing.xl};
-`
-
-const FeatureIcon = styled.div`
-  font-size: ${theme.fontSizes['4xl']};
-  margin-bottom: ${theme.spacing.md};
-`
-
-const FeatureTitle = styled.h3`
-  font-family: ${theme.fonts.heading};
-  font-size: ${theme.fontSizes.xl};
-  color: ${theme.colors.dark};
-  margin-bottom: ${theme.spacing.sm};
-`
-
-const FeatureDescription = styled.p`
-  font-size: ${theme.fontSizes.base};
-  color: ${theme.colors.gray};
-  line-height: 1.6;
-`
-
-interface HomePageProps {
-  posts: PostMeta[]
-}
-
-export default function HomePage({ posts }: HomePageProps) {
+export default function HomePage() {
   const scrollToContent = () => {
     window.scrollTo({
       top: window.innerHeight,
@@ -152,126 +187,66 @@ export default function HomePage({ posts }: HomePageProps) {
     })
   }
 
+  // Génération des flocons de neige
+  const snowflakes = Array.from({ length: 50 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    delay: Math.random() * 10,
+    duration: 10 + Math.random() * 20,
+    size: 8 + Math.random() * 8
+  }))
+
   return (
-    <>
-      <HeroSection>
+    <HeroSection>
+      <ParallaxContainer>
         <HeroBackground />
-        <HeroContent
-          initial={{ opacity: 0, y: 20 }}
+        <HeroOverlay />
+        
+        <SnowflakeContainer>
+          {snowflakes.map((flake) => (
+            <Snowflake
+              key={flake.id}
+              delay={flake.delay}
+              duration={flake.duration}
+              size={flake.size}
+              style={{ left: `${flake.left}%` }}
+            >
+              ❄
+            </Snowflake>
+          ))}
+        </SnowflakeContainer>
+      </ParallaxContainer>
+
+      <HeroContent
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+      >
+        <HeroTitle
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
         >
-          <HeroTitle
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Vivre en Arctique
-          </HeroTitle>
-          <HeroSubtitle
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            Explorez la beauté sauvage du Grand Nord à travers nos récits, 
-            photographies et conseils pour découvrir l'Arctique
-          </HeroSubtitle>
-        </HeroContent>
-        <ScrollIndicator
-          onClick={scrollToContent}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1 }}
+          Vivre en Arctique
+        </HeroTitle>
+        <HeroSubtitle
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.6, ease: "easeOut" }}
         >
-          ↓
-        </ScrollIndicator>
-      </HeroSection>
+          Explorez la beauté sauvage du Grand Nord à travers nos récits, 
+          photographies et conseils pour découvrir l'Arctique dans toute sa splendeur
+        </HeroSubtitle>
+      </HeroContent>
 
-      <FeaturesSection>
-        <FeaturesContainer>
-          <FeaturesGrid>
-            <FeatureCard
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <FeatureIcon>🏔️</FeatureIcon>
-              <FeatureTitle>Paysages époustouflants</FeatureTitle>
-              <FeatureDescription>
-                Découvrez des panoramas glacés à couper le souffle et des étendues infinies de blanc immaculé
-              </FeatureDescription>
-            </FeatureCard>
-
-            <FeatureCard
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              viewport={{ once: true }}
-            >
-              <FeatureIcon>🐻‍❄️</FeatureIcon>
-              <FeatureTitle>Faune arctique</FeatureTitle>
-              <FeatureDescription>
-                Rencontrez les habitants du Grand Nord : ours polaires, phoques, morses et bien d'autres
-              </FeatureDescription>
-            </FeatureCard>
-
-            <FeatureCard
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <FeatureIcon>🌌</FeatureIcon>
-              <FeatureTitle>Aurores boréales</FeatureTitle>
-              <FeatureDescription>
-                Admirez le spectacle magique des lumières dansantes dans le ciel polaire
-              </FeatureDescription>
-            </FeatureCard>
-
-            <FeatureCard
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              viewport={{ once: true }}
-            >
-              <FeatureIcon>🛷</FeatureIcon>
-              <FeatureTitle>Culture inuit</FeatureTitle>
-              <FeatureDescription>
-                Plongez dans les traditions millénaires des peuples autochtones de l'Arctique
-              </FeatureDescription>
-            </FeatureCard>
-
-            <FeatureCard
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              viewport={{ once: true }}
-            >
-              <FeatureIcon>❄️</FeatureIcon>
-              <FeatureTitle>Survie extrême</FeatureTitle>
-              <FeatureDescription>
-                Apprenez les techniques de survie dans les conditions les plus extrêmes de la planète
-              </FeatureDescription>
-            </FeatureCard>
-
-            <FeatureCard
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <FeatureIcon>🌡️</FeatureIcon>
-              <FeatureTitle>Changement climatique</FeatureTitle>
-              <FeatureDescription>
-                Comprenez l'impact du réchauffement sur l'écosystème arctique fragile
-              </FeatureDescription>
-            </FeatureCard>
-          </FeaturesGrid>
-        </FeaturesContainer>
-      </FeaturesSection>
-
-      <BlogGrid posts={posts} />
-    </>
+      <ScrollIndicator
+        onClick={scrollToContent}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.5 }}
+      >
+        ↓
+      </ScrollIndicator>
+    </HeroSection>
   )
 }
