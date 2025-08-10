@@ -59,65 +59,74 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // Flags pour activer/désactiver temporairement la navigation et le footer
+  const SHOW_NAVIGATION = false; // À activer plus tard
+  const SHOW_FOOTER = false; // À activer plus tard
+
   return (
     <html lang="fr">
       <body>
-        <Navigation />
+        {/* Navigation temporairement désactivée - code conservé pour réactivation future */}
+        {SHOW_NAVIGATION && <Navigation />}
+        
         <main style={{ minHeight: '100vh' }}>
           {children}
         </main>
-        <footer style={{
-          backgroundColor: '#0F172A',
-          color: '#FFFFFF',
-          padding: '3rem 2rem',
-          textAlign: 'center',
-          marginTop: '6rem'
-        }}>
-          <div style={{
-            maxWidth: '1280px',
-            margin: '0 auto'
+        
+        {/* Footer temporairement désactivé - code conservé pour réactivation future */}
+        {SHOW_FOOTER && (
+          <footer style={{
+            backgroundColor: '#0F172A',
+            color: '#FFFFFF',
+            padding: '3rem 2rem',
+            textAlign: 'center'
           }}>
-            <h3 style={{
-              fontFamily: 'Georgia, serif',
-              fontSize: '1.5rem',
-              marginBottom: '1rem'
-            }}>
-              Vivre en Arctique
-            </h3>
-            <p style={{
-              color: '#94A3B8',
-              marginBottom: '2rem'
-            }}>
-              Explorez la beauté sauvage du Grand Nord
-            </p>
             <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '2rem',
-              flexWrap: 'wrap',
-              marginBottom: '2rem'
+              maxWidth: '1280px',
+              margin: '0 auto'
             }}>
-              <a href="/" style={{ color: '#94A3B8', transition: 'color 0.3s' }}>
-                Accueil
-              </a>
-              <a href="/blog" style={{ color: '#94A3B8', transition: 'color 0.3s' }}>
-                Articles
-              </a>
-              <a href="/about" style={{ color: '#94A3B8', transition: 'color 0.3s' }}>
-                À propos
-              </a>
-              <a href="/contact" style={{ color: '#94A3B8', transition: 'color 0.3s' }}>
-                Contact
-              </a>
+              <h3 style={{
+                fontFamily: 'Georgia, serif',
+                fontSize: '1.5rem',
+                marginBottom: '1rem'
+              }}>
+                Vivre en Arctique
+              </h3>
+              <p style={{
+                color: '#94A3B8',
+                marginBottom: '2rem'
+              }}>
+                Explorez la beauté sauvage du Grand Nord
+              </p>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '2rem',
+                flexWrap: 'wrap',
+                marginBottom: '2rem'
+              }}>
+                <a href="/" style={{ color: '#94A3B8', transition: 'color 0.3s' }}>
+                  Accueil
+                </a>
+                <a href="/blog" style={{ color: '#94A3B8', transition: 'color 0.3s' }}>
+                  Articles
+                </a>
+                <a href="/about" style={{ color: '#94A3B8', transition: 'color 0.3s' }}>
+                  À propos
+                </a>
+                <a href="/contact" style={{ color: '#94A3B8', transition: 'color 0.3s' }}>
+                  Contact
+                </a>
+              </div>
+              <p style={{
+                color: '#64748B',
+                fontSize: '0.875rem'
+              }}>
+                © {new Date().getFullYear()} Vivre en Arctique. Tous droits réservés.
+              </p>
             </div>
-            <p style={{
-              color: '#64748B',
-              fontSize: '0.875rem'
-            }}>
-              © {new Date().getFullYear()} Vivre en Arctique. Tous droits réservés.
-            </p>
-          </div>
-        </footer>
+          </footer>
+        )}
       </body>
     </html>
   )

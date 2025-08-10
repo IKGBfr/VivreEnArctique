@@ -239,6 +239,8 @@ export default function HomePage() {
         </HeroSubtitle>
       </HeroContent>
 
+      {/* ScrollIndicator temporairement désactivé - plus de contenu en dessous */}
+      {/* 
       <ScrollIndicator
         onClick={scrollToContent}
         initial={{ opacity: 0 }}
@@ -247,6 +249,7 @@ export default function HomePage() {
       >
         ↓
       </ScrollIndicator>
+      */}
     </HeroSection>
   )
 }
